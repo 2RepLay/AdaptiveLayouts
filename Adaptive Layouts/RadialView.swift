@@ -9,57 +9,28 @@ import SwiftUI
 
 struct RadialView: View {
 	
-	@State private var currentLayout = 0
-	
-	var layout: AnyLayout {
-		layouts[currentLayout]
-	}
-	
-	let layouts = [
-		AnyLayout(VStackLayout()),
-		AnyLayout(HStackLayout()),
-		AnyLayout(ZStackLayout()),
-		AnyLayout(GridLayout()),
-		AnyLayout(RadialLayout())
-	]
+	@State private var count = 16
+	@State private var isExpanded = false
 	
     var body: some View {
-		VStack {
-			Spacer()
-			
-			layout {
-				GridRow {
-					ExampleView(color: .red)
-					ExampleView(color: .green)
-				}
-				
-				GridRow {
-					ExampleView(color: .blue)
-					ExampleView(color: .orange)	
-				}
-				
-				GridRow {
-					ExampleView(color: .purple)
-					ExampleView(color: .pink)
-				}
+		RadialLayout(rollOut: isExpanded ? 1 : 0) {
+			ForEach(0..<count, id: \.self) { _ in 
+				Circle()
+					.frame(width: 32, height: 32)
 			}
-			
-			Spacer()
-			
-			Button("Change Layout") {
-				withAnimation { 
-					currentLayout += 1
-					
-					if currentLayout == layouts.count {
-						currentLayout = 0
+		}
+		.safeAreaInset(edge: .bottom) { 
+			VStack {
+				Stepper("Count: \(count)", value: $count.animation(), in: 0...36)
+					.padding()
+				
+				Button("Expand") {
+					withAnimation(.easeInOut(duration: 1)) { 
+						isExpanded.toggle()
 					}
 				}
 			}
-			.buttonStyle(.borderedProminent)
 		}
-		.frame(maxWidth: .infinity, maxHeight: .infinity)
-		.padding()
-		.background()
     }
 }
 

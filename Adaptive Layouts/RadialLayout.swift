@@ -9,13 +9,20 @@ import SwiftUI
 
 struct RadialLayout: Layout {
 	
+	var animatableData: Double {
+		get { rollOut }
+		set { rollOut = newValue }
+	}
+	
+	var rollOut = 0.0
+	
 	func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
 		proposal.replacingUnspecifiedDimensions()
 	}	
 	
 	func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
 		let radius = min(bounds.size.width, bounds.size.height) / 2
-		let angle = Angle.degrees(360 / Double(subviews.count)).radians	
+		let angle = Angle.degrees(360 / Double(subviews.count)).radians * rollOut
 		
 		for (index, subview) in subviews.enumerated() {
 			let viewSize = subview.sizeThatFits(.unspecified)
