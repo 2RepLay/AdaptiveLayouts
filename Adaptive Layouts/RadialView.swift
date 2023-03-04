@@ -37,6 +37,11 @@ struct RadialView: View {
 					ExampleView(color: .blue)
 					ExampleView(color: .orange)	
 				}
+				
+				GridRow {
+					ExampleView(color: .purple)
+					ExampleView(color: .pink)
+				}
 			}
 			
 			Spacer()
@@ -54,7 +59,7 @@ struct RadialView: View {
 		}
 		.frame(maxWidth: .infinity, maxHeight: .infinity)
 		.padding()
-		.background(.gray)
+		.background()
     }
 }
 
